@@ -50,31 +50,30 @@ class Hunter:
         self.frame = 0
         self.frame2 =0
         self.dir = 0  # 오른쪽
+        self.facedir=1
         self.image = load_image('hunter.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 3+6
         self.frame2 = (self.frame2 + 1) % 6
-        self.x += self.dir * 4
-        if self.x > 800:
-            self.x = 800
-            self.dir = 0
-        elif self.x < 0:
-            self.x = 0
-            self.dir = 0
+        self.x += self.dir * 6
+        self.x = clamp(0, self.x, 800)
 
     def draw(self):
         if self.dir == 1:
             self.image.clip_draw(self.frame * 113, 569, 113, 113, self.x, self.y)
             delay(0.01)
 
-        elif self.dir==0:
-            self.image.clip_draw(0,565,113,133,self.x,self.y)
-
-        else:
-            self.image.clip_draw(self.frame2 * 113, 341, 113, 113, self.x, self.y)
+        elif self.dir ==-1:
+            self.image.clip_composite_draw(self.frame * 113, 569, 113, 133, -3.141592, 'v', self.x, self.y, 113, 113)
             delay(0.01)
 
+        else:
+            if self.facedir==1:
+                self.image.clip_composite_draw(0, 565, 113, 133, -3.141592, 'v', self.x, self.y,113,113)
+
+            else:
+                self.image.clip_draw(0,565,113,133,self.x,self.y)
 
 
 
@@ -98,43 +97,38 @@ def handle_events():
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 hunter.dir -= 1
+                hunter.facedir=1
             elif event.key == SDLK_LEFT:
                 hunter.dir += 1
+                hunter.facedir=-1
 
 
 cave = None # c로 따지믄 NULL
-ghost =None
-ghost2=None
-ghost3=None
 running = True
 hunter=None
-
+team=None
 
 
 # 초기화
 def enter():
-    global cave,hunter,ghost,ghost2,ghost3,running
-    ghost=Ghost()
-    ghost2=Ghost()
-    ghost3=Ghost()
+    global cave,hunter,team,running
+    team=[Ghost()for i in range(5)]
     hunter=Hunter()
     cave=Cave()
     running = True
 
 # finalization code
 def exit():
-    global cave,hunter,ghost,ghost2,ghost3
-    del ghost
-    del ghost2
-    del ghost3
+    global cave,hunter,team
+    for ghost in team:
+        del ghost
     del cave
     del hunter
 
 def update():
 
-    ghost.update()
-    ghost2.update()
-    ghost3.update()
+    for ghost in team:
+        ghost.update()
     hunter.update()
 
 def draw():
@@ -145,9 +139,8 @@ def draw():
 
 def draw_world():
     cave.draw()
-    ghost.draw()
-    ghost2.draw()
-    ghost3.draw()
+    for ghost in team:
+        ghost.draw()
     hunter.draw()
 
 
