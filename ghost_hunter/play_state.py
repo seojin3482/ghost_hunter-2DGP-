@@ -5,7 +5,7 @@ import random
 from ghost import Ghost
 from hunter import Hunter
 from cave import Cave
-
+import game_world
 
 
 
@@ -39,20 +39,20 @@ def enter():
     hunter=Hunter()
     cave=Cave()
     running = True
+    game_world.add_object(cave, 0)
+    game_world.add_objects(team, 1)
+    game_world.add_object(hunter, 1)
+
+
 
 # finalization code
 def exit():
-    global cave,hunter,team
-    for ghost in team:
-        del ghost
-    del cave
-    del hunter
+    game_world.clear()
 
 def update():
+    for game_object in game_world.all_objects():
+        game_object.update()
 
-    for ghost in team:
-        ghost.update()
-    hunter.update()
 
 def draw():
     clear_canvas()
@@ -61,10 +61,8 @@ def draw():
 
 
 def draw_world():
-    cave.draw()
-    for ghost in team:
-        ghost.draw()
-    hunter.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
 
 
 def pause():
