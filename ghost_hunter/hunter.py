@@ -104,7 +104,7 @@ next_state = {
     SLEEP: {RU: RUN, LU: RUN, RD: RUN, LD: RUN}
 }
 
-  
+
 
 class Hunter:
     def __init__(self):
