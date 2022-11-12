@@ -56,7 +56,7 @@ class Hunter:
     def update(self):
         self.frame = (self.frame + 1) % 3+6
         self.frame2 = (self.frame2 + 1) % 6
-        self.x += self.dir * 6
+        self.x += self.dir * 8
         self.x = clamp(0, self.x, 800)
 
     def draw(self):
@@ -73,7 +73,7 @@ class Hunter:
                 self.image.clip_composite_draw(0, 565, 113, 133, -3.141592, 'v', self.x, self.y,113,113)
 
             else:
-                self.image.clip_draw(0,565,113,133,self.x,self.y)
+                self.image.clip_draw(0,565,113,133,self.x,self.y,113,113)
 
 
 
