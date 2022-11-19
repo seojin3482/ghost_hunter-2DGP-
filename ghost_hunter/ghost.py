@@ -48,4 +48,7 @@ class Ghost:
     def get_bb(self):
         return self.x - 40, self.y - 40, self.x + 40, self.y + 40
 
+    def handle_collision(self, other, group):
+        pass
+
 

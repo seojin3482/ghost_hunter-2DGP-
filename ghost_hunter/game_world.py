@@ -1,11 +1,12 @@
-world= [[],[]]
+world= [[],[]] #list of list
 
 
-
+#충돌 딕셔너리
 collision_group=dict()
 #딕셔너리 형태
 # key -> hunter:team 어떤 객체끼리의 충돌인지 string 정보
 # value -> [ [hunter],[ghost1,ghost2,ghost3] ] list of list
+
 
 def add_object(o,depth):
     world[depth].append(o)
