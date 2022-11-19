@@ -14,6 +14,7 @@ import game_world
 
 
 
+
 def handle_events():
     global running
     events = get_events()
@@ -29,13 +30,14 @@ def handle_events():
 cave = None # c로 따지믄 NULL
 running = True
 hunter=None
-team=None #ghost list
+team = None  # ghost number 지정
+
 
 
 # 초기화
 def enter():
     global cave,hunter,team,running
-    team=[Ghost()for i in range(1)] #ghost number 지정
+    team=[Ghost()for i in range(2)] #ghost number 지정
     hunter=Hunter()
     cave=Cave()
     running = True
@@ -44,14 +46,19 @@ def enter():
     game_world.add_object(hunter, 1)
 
 
+
+
+
+
     #충돌 리스트 추가
     game_world.add_collision_pairs(hunter, team, 'hunter:team')
-
+    #game_world.add_collision_pairs(effect, team, 'effect:team')
 
 
 # finalization code
 def exit():
     game_world.clear()
+
 
 def update():
     for game_object in game_world.all_objects():
