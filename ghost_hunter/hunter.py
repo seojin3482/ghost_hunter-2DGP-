@@ -1,9 +1,10 @@
 from pico2d import *
 import game_framework
 import game_world
-import ghost_hunter.ghost
-from effect import Effect
 
+from effect import Effect
+from ghost import Ghost
+from play_state import *
 
 
 
@@ -163,6 +164,10 @@ class DAMAGE:
         self.hp -= 0.1
         if self.hp<=0:
             self.add_event(HP0)
+        if self.dir>0:
+            self.x-=10
+        elif self.dir<0:
+            self.x+=10
 
 
 
@@ -301,6 +306,9 @@ class Hunter:
         self.hp = 100.0
         self.font = load_font('ENCR10B.TTF', 16)
 
+
+
+
     def update(self):
         self.cur_state.do(self)
 
@@ -343,13 +351,13 @@ class Hunter:
         #     elif self.face_dir == -1:
         #         return self.x-40,self.y-20,self.x-10,self.y+40
 
-        if self.cur_state==DAMAGE:
-            if self.face_dir==1 or self.dir==1:
-                return self.x-55,self.y-50,self.x-25,self.y+50
-            elif self.face_dir == -1 or self.face_dir==-1:
-                return self.x+25,self.y-50,self.x+55,self.y+50
+        # if self.cur_state==DAMAGE:
+        #     if self.face_dir==1 or self.dir==1:
+        #         return self.x-55,self.y-50,self.x-25,self.y+50
+        #     elif self.face_dir == -1 or self.face_dir==-1:
+        #         return self.x+25,self.y-50,self.x+55,self.y+50
 
-        else:
+        #
             return self.x - 15, self.y - 50, self.x + 15, self.y + 50
 
     def handle_collision(self, other, group):
